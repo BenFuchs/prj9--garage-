@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <div>
+        Customer Name:<input id="I1">
+        Car Color:<input id="I2">
+        Car Model:<input id="I3">
+        Car Year:<input id="I4">
+        <button id="submit" onclick="addForm()">Submit</button>
+    </div>
+    
+
+    <div id="display">
+
+    </div>
+    <script>
+        let carInfo = []
+        // console.log(carInfo);
+        function displayInfo() {
+            let temp = `<ol>`;
+            for (let index = 0; index < carInfo.length; index++) {
+                temp += `<li> 
+                        ${carInfo[index]["Customer Name:"]} - 
+                        ${carInfo[index]["Car Color:"]} - 
+                        ${carInfo[index]["Car Model:"]} - 
+                        ${carInfo[index]["Car Year:"]}
+                        <button onclick="removeInfo(${index})">DELETE</button>
+                        <button onclick="update(${index})">Update Customer</button>
+                    </li>`;
+            }
+            temp += `</ol>`;
+            document.getElementById("display").innerHTML = temp;
+        }
+        function addForm() {
+            carInfo.push({
+                "Customer Name:": I1.value, "Car Color:": I2.value, "Car Model:": I3.value, "Car Year:": I4.value
+            })
+            // console.log(carInfo);
+            localStorage.setItem("Customer Info", JSON.stringify(carInfo));
+
+
+            displayInfo(); 
+            document.getElementById("I1").value = ""
+            document.getElementById("I2").value = ""
+            document.getElementById("I3").value = ""
+            document.getElementById("I4").value = ""
+        }
+        function removeInfo(ind){
+            carInfo.splice(ind, 1);
+            localStorage.setItem("Customer Info", JSON.stringify(carInfo));
+            displayInfo();
+        }
+        function update(ind){
+            let newName = prompt("New customer name:", carInfo[ind]["Customer Name:"])
+            let newColor = prompt("New Car Color:", carInfo[ind]["Car Color:"])
+            let newModel = prompt("New Car Model:", carInfo[ind]["Car Model:"])
+            let newYear = prompt("New Car Year:", carInfo[ind]["Car Year:"])
+
+            carInfo[ind] = {"Customer Name:": newName, "Car Color:": newColor, "Car Model:": newModel, "Car Year:": newYear}
+            localStorage.setItem("Customer Info", JSON.stringify(carInfo));
+            displayInfo();
+
+        }
+    </script>
+</body>
+
+</html>
